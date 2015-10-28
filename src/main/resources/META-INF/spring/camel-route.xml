@@ -27,23 +27,21 @@
 
   <import resource="classpath:META-INF/spring/camel-cxf.xml" />
 
+  <!-- route starts from the cxf webservice, see camel-cxf.xml for details -->
+  <!-- and then create the OK reply for the webservice which is still waiting for a reply -->
+  <!-- test route -->
   <camelContext xmlns="http://camel.apache.org/schema/spring">
-  
-    <route>
-      <!-- route starts from the cxf webservice, see camel-cxf.xml for details -->
-      <from uri="cxf:bean:orderEndpoint" />
-      <to uri="seda:incomingOrders" />
-      <!-- and then create the OK reply for the webservice which is still waiting for a reply -->
-      <transform>
-        <constant>OK</constant>
-      </transform>
-    </route>
-  
-    <!-- test route -->
-    <route>
-      <from uri="seda:incomingOrders" />
-      <to uri="mock:end"/>
-    </route>
-  </camelContext>
+  <route>
+    <from uri="cxf:bean:orderEndpoint"/>
+    <to uri="seda:incomingOrders"/>
+    <transform>
+      <constant>OK</constant>
+    </transform>
+  </route>
+  <route>
+    <from uri="seda:incomingOrders"/>
+    <to uri="mock:end"/>
+  </route>
+</camelContext>
 
 </beans>

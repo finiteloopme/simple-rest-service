@@ -30,9 +30,9 @@ public class OrderTest extends CamelSpringTestSupport {
 
     @Override
     protected AbstractXmlApplicationContext createApplicationContext() {
-        return new ClassPathXmlApplicationContext("META-INF/spring/camel-route.xml");
+        return new ClassPathXmlApplicationContext("META-INF/spring/rest-camel-route.xml");
     }
-
+/*
     @Test
     public void testOrderOk() throws Exception {
         List<Object> params = new ArrayList<Object>();
@@ -42,5 +42,14 @@ public class OrderTest extends CamelSpringTestSupport {
         
         String reply = template.requestBody("cxf:bean:orderEndpoint", params, String.class);
         assertEquals("OK", reply);
+    }
+    */
+    
+    @Test
+    public void testRSEndpoint()
+    	throws Exception{
+    	// Specifying body as null automatically tells camel that the http method is GET
+    	String reply = template.requestBody("http4://localhost:9091/say/hello", null , String.class);
+    	assertEquals("Hello World", reply);
     }
 }
